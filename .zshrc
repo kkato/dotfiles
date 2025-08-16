@@ -5,7 +5,7 @@ PROMPT='%~ %% '
 
 # alias
 alias ls='ls -G'
-alias ghqcd='cd "$(ghq list | peco)"'
+alias ghqcd='cd "$(ghq list --full-path | peco)"'
 
 # zsh-completions
   if type brew &>/dev/null; then
