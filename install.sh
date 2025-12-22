@@ -86,12 +86,21 @@ install_packages() {
     info "Checking required packages..."
 
     local packages=(
+        "git"
+        "neovim"
         "starship"
         "zsh-completions"
         "zsh-autosuggestions"
         "zsh-syntax-highlighting"
         "ghq"
         "peco"
+        "jq"
+        "tree"
+        "watch"
+    )
+
+    local casks=(
+        "ghostty"
     )
 
     local to_install=()
@@ -109,6 +118,24 @@ install_packages() {
         brew install "${to_install[@]}"
     else
         info "All required packages are already installed"
+    fi
+
+    # Check and install casks
+    local casks_to_install=()
+
+    for cask in "${casks[@]}"; do
+        if ! brew list --cask "$cask" &> /dev/null; then
+            casks_to_install+=("$cask")
+        else
+            info "$cask is already installed"
+        fi
+    done
+
+    if [ ${#casks_to_install[@]} -gt 0 ]; then
+        info "Installing casks: ${casks_to_install[*]}"
+        brew install --cask "${casks_to_install[@]}"
+    else
+        info "All required casks are already installed"
     fi
 }
 
@@ -132,6 +159,7 @@ main() {
     create_symlink "$DOTFILES_DIR/.zshrc" "$HOME/.zshrc"
     create_symlink "$DOTFILES_DIR/.gitconfig" "$HOME/.gitconfig"
     create_symlink "$DOTFILES_DIR/.config/starship.toml" "$HOME/.config/starship.toml"
+    create_symlink "$DOTFILES_DIR/.config/nvim" "$HOME/.config/nvim"
 
     info "Installation completed!"
 
