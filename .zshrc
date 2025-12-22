@@ -8,12 +8,6 @@
 # Starship prompt
 eval "$(starship init zsh)"
 
-# zoxide (modern cd alternative)
-if command -v zoxide &>/dev/null; then
-    eval "$(zoxide init zsh)"
-    alias cd='z'
-fi
-
 # ----------------------------------------------------------------------------
 # General Aliases
 
