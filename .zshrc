@@ -1,13 +1,13 @@
-# PROMPT
-PROMPT='%~ %% '
-# starship
-# eval "$(starship init zsh)"
+# [PROMPT]
+# PROMPT='%~ %% '
+# [starshi]p
+eval "$(starship init zsh)"
 
-# alias
+# [alias]
 alias ls='ls -G'
 alias ghqcd='cd "$(ghq list --full-path | peco)"'
 
-# zsh-completions
+# [zsh-completions]
   if type brew &>/dev/null; then
     FPATH=$(brew --prefix)/share/zsh-completions:$FPATH
 
@@ -15,21 +15,21 @@ alias ghqcd='cd "$(ghq list --full-path | peco)"'
     compinit
   fi
 
-# zsh-autosuggestions
+# [zsh-autosuggestions]
 source $(brew --prefix)/share/zsh-autosuggestions/zsh-autosuggestions.zsh
 
-# zsh-syntax-highlighting
+# [zsh-syntax-highlighting]
 source $(brew --prefix)/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 
-# kubectl
+# [kubectl]
 alias k=kubectl
 autoload -Uz compinit && compinit
 source <(kubectl completion zsh)
 
-# rbenv
-export RBENV_ROOT="$HOME/.rbenv"
-export PATH="$RBENV_ROOT/bin:$PATH"
-eval "$(rbenv init -)"
+# [rbenv]
+# export RBENV_ROOT="$HOME/.rbenv"
+# export PATH="$RBENV_ROOT/bin:$PATH"
+# eval "$(rbenv init -)"
 
 # The next line updates PATH for the Google Cloud SDK.
 if [ -f '/Users/kkato/google-cloud-sdk/path.zsh.inc' ]; then . '/Users/kkato/google-cloud-sdk/path.zsh.inc'; fi
