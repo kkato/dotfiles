@@ -1,0 +1,16 @@
+# 全体の表示順
+format = """
+$directory\
+$git_branch\
+$time
+$character
+"""
+
+# パス
+[directory]
+truncation_symbol="…/"
+
+
+# 時刻
+[time]
+disabled = false
