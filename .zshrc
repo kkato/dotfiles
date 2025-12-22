@@ -8,28 +8,38 @@
 # Starship prompt
 eval "$(starship init zsh)"
 
+# zoxide (modern cd alternative)
+if command -v zoxide &>/dev/null; then
+    eval "$(zoxide init zsh)"
+    alias cd='z'
+fi
+
 # ----------------------------------------------------------------------------
 # General Aliases
 # ----------------------------------------------------------------------------
-alias ls='ls -G'
-alias ll='ls -lha'
-alias la='ls -A'
+# Modern CLI tools (Rust-based)
+if command -v eza &>/dev/null; then
+    alias ls='eza --icons'
+    alias ll='eza -l --icons --git'
+    alias la='eza -la --icons --git'
+    alias tree='eza --tree --icons'
+else
+    alias ls='ls -G'
+    alias ll='ls -lha'
+    alias la='ls -A'
+fi
+
+if command -v bat &>/dev/null; then
+    alias cat='bat'
+    export BAT_THEME="TwoDark"
+fi
+
+if command -v rg &>/dev/null; then
+    alias grep='rg'
+fi
+
 alias ..='cd ..'
 alias ...='cd ../..'
-
-# ----------------------------------------------------------------------------
-# Git Aliases
-# ----------------------------------------------------------------------------
-alias g='git'
-alias gs='git status'
-alias ga='git add'
-alias gc='git commit'
-alias gp='git push'
-alias gl='git pull'
-alias gd='git diff'
-alias gco='git checkout'
-alias gb='git branch'
-alias glog='git log --oneline --graph --decorate'
 
 # ----------------------------------------------------------------------------
 # Development Tools
@@ -39,17 +49,6 @@ alias ghqcd='cd "$(ghq list --full-path | peco)"'
 
 # kubectl
 alias k='kubectl'
-alias kgp='kubectl get pods'
-alias kgs='kubectl get services'
-alias kgd='kubectl get deployments'
-alias klog='kubectl logs -f'
-
-# Docker
-alias d='docker'
-alias dc='docker-compose'
-alias dps='docker ps'
-alias dimg='docker images'
-alias dexec='docker exec -it'
 
 # ----------------------------------------------------------------------------
 # Useful Functions
