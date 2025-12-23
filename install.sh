@@ -97,12 +97,6 @@ install_packages() {
         "jq"
         "tree"
         "watch"
-        "ripgrep"
-        "fd"
-        "sd"
-        "bat"
-        "eza"
-        "zoxide"
     )
 
     local casks=(
