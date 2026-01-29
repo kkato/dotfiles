@@ -7,9 +7,10 @@ macOS向けの個人的なdotfiles設定です。
 ```
 .
 ├── .zshrc              # Zsh設定
-├── .config/
-│   └── starship.toml  # Starshipプロンプト設定
 ├── .gitconfig          # Git設定
+├── .config/
+│   ├── starship.toml   # Starshipプロンプト設定
+│   └── nvim/           # Neovim設定
 └── install.sh          # セットアップスクリプト
 ```
 
@@ -18,17 +19,7 @@ macOS向けの個人的なdotfiles設定です。
 - macOS
 - [Homebrew](https://brew.sh/ja/)
 - Zsh
-
-## 必要なツールのインストール
-
-```bash
-# Homebrew経由でインストール
-brew install starship zsh-completions zsh-autosuggestions zsh-syntax-highlighting
-brew install ghq peco kubectl
-
-# オプション: Google Cloud SDK
-# https://cloud.google.com/sdk/docs/install
-```
+- Node.js / npm (AIツールのインストール用)
 
 ## セットアップ
 
@@ -65,7 +56,11 @@ cd ~/dotfiles
 
 ### Google Cloud SDK
 - パスと補完機能の自動設定
-- 認証情報の環境変数設定
+
+### AIコーディングツール (npm)
+- **Claude Code**: Anthropic製AIコーディングアシスタント
+- **Gemini CLI**: Google製AIコーディングアシスタント
+- **Codex**: OpenAI製AIコーディングアシスタント
 
 ## 手動セットアップ
 
