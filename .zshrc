@@ -55,29 +55,24 @@ fi
 # Google Cloud SDK
 # ----------------------------------------------------------------------------
 # Path
-# if [ -f "$HOME/google-cloud-sdk/path.zsh.inc" ]; then
-#     source "$HOME/google-cloud-sdk/path.zsh.inc"
-# fi
+if [ -f "$HOME/google-cloud-sdk/path.zsh.inc" ]; then
+    source "$HOME/google-cloud-sdk/path.zsh.inc"
+fi
 
 # Completion
-# if [ -f "$HOME/google-cloud-sdk/completion.zsh.inc" ]; then
-#     source "$HOME/google-cloud-sdk/completion.zsh.inc"
-# fi
-
-# Credentials
-# if [ -f "$HOME/.config/gcloud/active-chimera-351913-0f994a455ec1.json" ]; then
-#     export GOOGLE_APPLICATION_CREDENTIALS="$HOME/.config/gcloud/active-chimera-351913-0f994a455ec1.json"
-# fi
+if [ -f "$HOME/google-cloud-sdk/completion.zsh.inc" ]; then
+    source "$HOME/google-cloud-sdk/completion.zsh.inc"
+fi
 
 # ----------------------------------------------------------------------------
 # Language Specific
 # ----------------------------------------------------------------------------
 # Ruby (rbenv)
-# if command -v rbenv &>/dev/null; then
-#     export RBENV_ROOT="$HOME/.rbenv"
-#     export PATH="$RBENV_ROOT/bin:$PATH"
-#     eval "$(rbenv init -)"
-# fi
+if command -v rbenv &>/dev/null; then
+    export RBENV_ROOT="$HOME/.rbenv"
+    export PATH="$RBENV_ROOT/bin:$PATH"
+    eval "$(rbenv init -)"
+fi
 
 # icu4c for pkg-config
 if [ -d "/opt/homebrew/opt/icu4c" ]; then
@@ -90,16 +85,20 @@ if command -v direnv &>/dev/null; then
 fi
 
 # ----------------------------------------------------------------------------
+# Shell Options
+# ----------------------------------------------------------------------------
+setopt interactivecomments  # Allow comments in interactive shell
+
+# ----------------------------------------------------------------------------
 # History Configuration
 # ----------------------------------------------------------------------------
-HISTFILE=~/.zsh_history
-HISTSIZE=10000
-SAVEHIST=10000
-setopt SHARE_HISTORY
-setopt HIST_IGNORE_ALL_DUPS
-setopt HIST_IGNORE_SPACE
-setopt HIST_REDUCE_BLANKS
-setopt interactivecomments
+HISTFILE=~/.zsh_history      # Path to history file
+HISTSIZE=10000               # Max entries in memory
+SAVEHIST=10000               # Max entries in file
+setopt SHARE_HISTORY         # Share history across sessions
+setopt HIST_IGNORE_ALL_DUPS  # Remove older duplicates
+setopt HIST_IGNORE_SPACE     # Ignore commands starting with space
+setopt HIST_REDUCE_BLANKS    # Remove extra whitespace
 
 # ----------------------------------------------------------------------------
 # Local Configuration
