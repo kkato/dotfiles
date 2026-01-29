@@ -54,7 +54,7 @@ cd ~/dotfiles
 - 補完機能が有効化
 - エイリアス `k` でkubectlを使用可能
 
-### Google Cloud SDK
+### gcloud
 - パスと補完機能の自動設定
 
 ### AIコーディングツール (npm)
