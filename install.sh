@@ -98,6 +98,9 @@ install_packages() {
         "tree"
         "watch"
         "gh"
+        "go"
+        "fnm"
+        "rbenv"
     )
 
     local casks=(
