@@ -1,0 +1,11 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash:^git (?!commit|push)",
+      "Bash:^(ls|cat|head|tail|grep|find|pwd|echo|which|whoami|date|file|wc|sort|uniq|diff)",
+      "Bash:^gh (api -X GET|issue list|pr diff|pr list|pr view)"
+    ],
+    "deny": []
+  },
+  "language": "Japanese"
+}
