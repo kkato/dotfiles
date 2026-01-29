@@ -34,54 +34,10 @@ cd ~/dotfiles
 
 ## 主な機能
 
-### プロンプト
-- **Starship**: カスタマイズ可能な高速プロンプト
-  - ディレクトリ表示
-  - Gitブランチ表示
-  - 時刻表示
-
-### エイリアス
-- `ls='ls -G'` - カラー表示
-- `ghqcd` - ghqリポジトリをpecoで選択して移動
-- `ghqf` - ghqリポジトリをfzfで選択して移動（プレビュー付き）
-- `k=kubectl` - kubectl省略形
-- `diff=colordiff` - カラー差分表示
-
-### Zsh拡張
-- **zsh-completions**: 補完機能強化
-- **zsh-autosuggestions**: コマンド履歴からの自動提案
-- **zsh-syntax-highlighting**: シンタックスハイライト
-
-### kubectl / helm
-- 補完機能が有効化
-- エイリアス `k` でkubectlを使用可能
-
-### fzf
-- ファジーファインダー
-- `Ctrl+R` - コマンド履歴検索
-- `Ctrl+T` - ファイル検索
-- `Alt+C` - ディレクトリ移動
-
-### git-delta
-- git diff/logのシンタックスハイライト表示
-- 行番号表示
-- 単語単位の差分ハイライト
-
-### Ghostty
-- GPU高速化されたターミナルエミュレータ
-- ネイティブmacOSアプリ
-
-### fnm (Fast Node Manager)
-- Node.jsのバージョン管理
-- `.node-version`や`.nvmrc`があるディレクトリで自動切り替え
-
-### gcloud
-- パスと補完機能の自動設定
-
-### AIコーディングツール (npm)
-- **Claude Code**: Anthropic製AIコーディングアシスタント
-- **Gemini CLI**: Google製AIコーディングアシスタント
-- **Codex**: OpenAI製AIコーディングアシスタント
+- **Ghostty**: ターミナルエミュレータ
+- **Neovim**: エディタ
+- **Starship**: プロンプト
+- **Claude Code / Gemini CLI / Codex**: AIコーディングアシスタント
 
 ## 手動セットアップ
 
@@ -107,16 +63,3 @@ source ~/.zshrc
 export CUSTOM_VAR="your_value"
 ```
 
-## トラブルシューティング
-
-### compinit: insecure directories エラー
-```bash
-chmod 755 /opt/homebrew/share/zsh
-chmod 755 /opt/homebrew/share/zsh/site-functions
-```
-
-### zsh-autosuggestions が動作しない
-```bash
-brew reinstall zsh-autosuggestions
-source ~/.zshrc
-```
