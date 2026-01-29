@@ -151,6 +151,7 @@ install_npm_packages() {
 
     local npm_packages=(
         "@anthropic-ai/claude-code"
+        "@google/gemini-cli"
         "@openai/codex"
     )
 
