@@ -43,16 +43,37 @@ cd ~/dotfiles
 ### エイリアス
 - `ls='ls -G'` - カラー表示
 - `ghqcd` - ghqリポジトリをpecoで選択して移動
+- `ghqf` - ghqリポジトリをfzfで選択して移動（プレビュー付き）
 - `k=kubectl` - kubectl省略形
+- `diff=colordiff` - カラー差分表示
 
 ### Zsh拡張
 - **zsh-completions**: 補完機能強化
 - **zsh-autosuggestions**: コマンド履歴からの自動提案
 - **zsh-syntax-highlighting**: シンタックスハイライト
 
-### kubectl
+### kubectl / helm
 - 補完機能が有効化
 - エイリアス `k` でkubectlを使用可能
+
+### fzf
+- ファジーファインダー
+- `Ctrl+R` - コマンド履歴検索
+- `Ctrl+T` - ファイル検索
+- `Alt+C` - ディレクトリ移動
+
+### git-delta
+- git diff/logのシンタックスハイライト表示
+- 行番号表示
+- 単語単位の差分ハイライト
+
+### Ghostty
+- GPU高速化されたターミナルエミュレータ
+- ネイティブmacOSアプリ
+
+### fnm (Fast Node Manager)
+- Node.jsのバージョン管理
+- `.node-version`や`.nvmrc`があるディレクトリで自動切り替え
 
 ### gcloud
 - パスと補完機能の自動設定
