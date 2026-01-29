@@ -5,9 +5,6 @@
 	required = true
 [credential]
 	helper = osxkeychain
-[user]
-	email = kkato149@gmail.com
-	name = kkato
 [init]
 	defaultBranch = main
 [color]
@@ -20,3 +17,5 @@
 	excludesfile = /Users/kkato/.gitignore_global
 [url "git@github.com:"]
 	insteadOf = https://github.com/
+[include]
+	path = ~/.gitconfig.local
