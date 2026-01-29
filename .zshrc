@@ -84,6 +84,11 @@ if [ -d "/opt/homebrew/opt/icu4c" ]; then
     export PKG_CONFIG_PATH="/opt/homebrew/opt/icu4c/lib/pkgconfig:$PKG_CONFIG_PATH"
 fi
 
+# direnv
+if command -v direnv &>/dev/null; then
+    eval "$(direnv hook zsh)"
+fi
+
 # ----------------------------------------------------------------------------
 # History Configuration
 # ----------------------------------------------------------------------------
