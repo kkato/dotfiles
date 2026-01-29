@@ -97,6 +97,7 @@ install_packages() {
         "jq"
         "tree"
         "watch"
+        "gh"
     )
 
     local casks=(
@@ -139,6 +140,30 @@ install_packages() {
     fi
 }
 
+# npm パッケージのインストール
+install_npm_packages() {
+    info "Checking npm packages..."
+
+    if ! command -v npm &> /dev/null; then
+        warn "npm is not installed. Skipping npm packages."
+        return
+    fi
+
+    local npm_packages=(
+        "@anthropic-ai/claude-code"
+        "@openai/codex"
+    )
+
+    for package in "${npm_packages[@]}"; do
+        if npm list -g "$package" &> /dev/null; then
+            info "$package is already installed"
+        else
+            info "Installing $package..."
+            npm install -g "$package"
+        fi
+    done
+}
+
 # メイン処理
 main() {
     info "Starting dotfiles installation..."
@@ -151,6 +176,7 @@ main() {
     read -r response
     if [[ "$response" =~ ^([yY][eE][sS]|[yY])$ ]]; then
         install_packages
+        install_npm_packages
     fi
 
     # シンボリックリンクの作成
