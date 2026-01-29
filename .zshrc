@@ -74,6 +74,11 @@ if command -v rbenv &>/dev/null; then
     eval "$(rbenv init -)"
 fi
 
+# Node.js (fnm)
+if command -v fnm &>/dev/null; then
+    eval "$(fnm env --use-on-cd)"
+fi
+
 # icu4c for pkg-config
 if [ -d "/opt/homebrew/opt/icu4c" ]; then
     export PKG_CONFIG_PATH="/opt/homebrew/opt/icu4c/lib/pkgconfig:$PKG_CONFIG_PATH"
