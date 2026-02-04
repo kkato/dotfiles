@@ -67,12 +67,11 @@ require("lazy").setup({
     "nvim-treesitter/nvim-treesitter",
     build = ":TSUpdate", -- インストール後にパーサーを更新
     config = function()
-      require("nvim-treesitter.configs").setup({
-        -- 自動インストールする言語のパーサー
-        ensure_installed = { "lua", "javascript", "typescript", "python", "go", "json", "yaml", "markdown" },
-        -- ハイライト機能を有効化
-        highlight = { enable = true },
-      })
+      -- パーサーのインストール設定
+      require("nvim-treesitter").setup({})
+      -- 必要なパーサーをインストール
+      local languages = { "lua", "javascript", "typescript", "python", "go", "json", "yaml", "markdown" }
+      require("nvim-treesitter").install(languages)
     end,
   },
 
@@ -255,48 +254,59 @@ require("lazy").setup({
       "hrsh7th/cmp-nvim-lsp",
     },
     config = function()
-      local lspconfig = require("lspconfig")
       -- nvim-cmpの補完機能をLSPに伝える
       local capabilities = require("cmp_nvim_lsp").default_capabilities()
 
-      -- LSPがバッファにアタッチされたときのキーマップ設定
-      local on_attach = function(client, bufnr)
-        local opts = { buffer = bufnr, noremap = true, silent = true }
-        -- gd: 定義へジャンプ
-        vim.keymap.set("n", "gd", vim.lsp.buf.definition, opts)
-        -- gD: 宣言へジャンプ
-        vim.keymap.set("n", "gD", vim.lsp.buf.declaration, opts)
-        -- gr: 参照一覧を表示
-        vim.keymap.set("n", "gr", vim.lsp.buf.references, opts)
-        -- K: ホバー情報（型情報など）を表示
-        vim.keymap.set("n", "K", vim.lsp.buf.hover, opts)
-        -- Space + rn: シンボルをリネーム
-        vim.keymap.set("n", "<leader>rn", vim.lsp.buf.rename, opts)
-        -- Space + ca: コードアクション（自動修正など）
-        vim.keymap.set("n", "<leader>ca", vim.lsp.buf.code_action, opts)
-        -- Space + f: フォーマット
-        vim.keymap.set("n", "<leader>f", function()
-          vim.lsp.buf.format({ async = true })
-        end, opts)
-      end
-
-      -- Go
-      lspconfig.gopls.setup({
-        capabilities = capabilities,
-        on_attach = on_attach,
+      -- LSPがバッファにアタッチされたときのキーマップ設定（autocmdを使用）
+      vim.api.nvim_create_autocmd("LspAttach", {
+        callback = function(args)
+          local opts = { buffer = args.buf, noremap = true, silent = true }
+          -- gd: 定義へジャンプ
+          vim.keymap.set("n", "gd", vim.lsp.buf.definition, opts)
+          -- gD: 宣言へジャンプ
+          vim.keymap.set("n", "gD", vim.lsp.buf.declaration, opts)
+          -- gr: 参照一覧を表示
+          vim.keymap.set("n", "gr", vim.lsp.buf.references, opts)
+          -- K: ホバー情報（型情報など）を表示
+          vim.keymap.set("n", "K", vim.lsp.buf.hover, opts)
+          -- Space + rn: シンボルをリネーム
+          vim.keymap.set("n", "<leader>rn", vim.lsp.buf.rename, opts)
+          -- Space + ca: コードアクション（自動修正など）
+          vim.keymap.set("n", "<leader>ca", vim.lsp.buf.code_action, opts)
+          -- Space + f: フォーマット
+          vim.keymap.set("n", "<leader>f", function()
+            vim.lsp.buf.format({ async = true })
+          end, opts)
+        end,
       })
+
+      -- Neovim 0.11+ の vim.lsp.config を使用
+      -- Go
+      vim.lsp.config.gopls = {
+        cmd = { "gopls" },
+        filetypes = { "go", "gomod", "gowork", "gotmpl" },
+        root_markers = { "go.work", "go.mod", ".git" },
+        capabilities = capabilities,
+      }
 
       -- Python
-      lspconfig.pyright.setup({
+      vim.lsp.config.pyright = {
+        cmd = { "pyright-langserver", "--stdio" },
+        filetypes = { "python" },
+        root_markers = { "pyproject.toml", "setup.py", "setup.cfg", "requirements.txt", "Pipfile", "pyrightconfig.json", ".git" },
         capabilities = capabilities,
-        on_attach = on_attach,
-      })
+      }
 
       -- TypeScript/JavaScript
-      lspconfig.ts_ls.setup({
+      vim.lsp.config.ts_ls = {
+        cmd = { "typescript-language-server", "--stdio" },
+        filetypes = { "javascript", "javascriptreact", "javascript.jsx", "typescript", "typescriptreact", "typescript.tsx" },
+        root_markers = { "tsconfig.json", "jsconfig.json", "package.json", ".git" },
         capabilities = capabilities,
-        on_attach = on_attach,
-      })
+      }
+
+      -- LSPを有効化
+      vim.lsp.enable({ "gopls", "pyright", "ts_ls" })
     end,
   },
 })
