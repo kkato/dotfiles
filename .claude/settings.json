@@ -7,5 +7,12 @@
     ],
     "deny": []
   },
+  "model": "opus",
+  "enabledPlugins": {
+    "context7@claude-plugins-official": true,
+    "code-review@claude-plugins-official": true,
+    "claude-code-setup@claude-plugins-official": true,
+    "example-skills@anthropic-agent-skills": true
+  },
   "language": "Japanese"
 }
