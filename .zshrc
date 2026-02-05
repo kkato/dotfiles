@@ -16,6 +16,7 @@ alias ll='ls -lha'
 alias la='ls -A'
 alias ..='cd ..'
 alias ...='cd ../..'
+alias history='history 0 | fzf'
 
 # ----------------------------------------------------------------------------
 # Development Tools
