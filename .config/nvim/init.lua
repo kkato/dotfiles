@@ -149,29 +149,4 @@ require("lazy").setup({
       vim.cmd("colorscheme tokyonight")
     end,
   },
-
-  -- ---------------------------------------------------------------------------
-  -- nvim-tree.lua: ファイルマネージャー
-  -- ---------------------------------------------------------------------------
-  -- サイドバー型のファイルツリー
-  -- Space + e でツリーを開閉
-  -- ファイル操作: a(作成), d(削除), r(名前変更), x(切り取り), c(コピー), p(貼り付け)
-  {
-    "nvim-tree/nvim-tree.lua",
-    dependencies = { "nvim-tree/nvim-web-devicons" }, -- ファイルアイコン表示用
-    config = function()
-      require("nvim-tree").setup({
-        view = {
-          width = 30, -- サイドバーの幅
-        },
-        filters = {
-          dotfiles = false, -- 隠しファイルを表示（trueで非表示）
-        },
-      })
-      -- Space + e でツリーを開閉
-      vim.keymap.set("n", "<leader>e", "<cmd>NvimTreeToggle<cr>", { desc = "Toggle file tree" })
-      -- Space + o で現在のファイルをツリーで表示
-      vim.keymap.set("n", "<leader>o", "<cmd>NvimTreeFindFile<cr>", { desc = "Find file in tree" })
-    end,
-  },
 })
