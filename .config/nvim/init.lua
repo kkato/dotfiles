@@ -32,9 +32,6 @@ vim.opt.tabstop = 2
 -- 自動インデント時のスペース数（2スペース）
 vim.opt.shiftwidth = 2
 
--- 24bitカラー（TrueColor）を有効化（モダンなカラースキームに必要）
-vim.opt.termguicolors = true
-
 -- 検索時に大文字小文字を区別しない
 vim.opt.ignorecase = true
 
@@ -122,31 +119,6 @@ require("lazy").setup({
     event = "InsertEnter", -- インサートモード時に読み込み（遅延ロード）
     config = function()
       require("nvim-autopairs").setup()
-    end,
-  },
-
-  -- ---------------------------------------------------------------------------
-  -- lualine.nvim: ステータスライン
-  -- ---------------------------------------------------------------------------
-  -- 画面下部にモード、ファイル名、位置などを表示
-  -- 見た目がおしゃれになる
-  {
-    "nvim-lualine/lualine.nvim",
-    config = function()
-      require("lualine").setup()
-    end,
-  },
-
-  -- ---------------------------------------------------------------------------
-  -- tokyonight.nvim: カラースキーム
-  -- ---------------------------------------------------------------------------
-  -- 人気の高いダークテーマ
-  -- priority=1000 で他のプラグインより先に読み込む
-  {
-    "folke/tokyonight.nvim",
-    priority = 1000,
-    config = function()
-      vim.cmd("colorscheme tokyonight")
     end,
   },
 })
