@@ -93,7 +93,7 @@ install_packages() {
         "zsh-autosuggestions"
         "zsh-syntax-highlighting"
         "ghq"
-        "peco"
+        "fzf"
         "jq"
         "tree"
         "watch"
