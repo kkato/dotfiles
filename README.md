@@ -19,7 +19,7 @@ macOS向けの個人的なdotfiles設定です。
 - macOS
 - [Homebrew](https://brew.sh/ja/)
 - Zsh
-- Node.js / npm (AIツールのインストール用)
+- curl (Claude Codeのインストール用)
 
 ## セットアップ
 
@@ -37,7 +37,7 @@ cd ~/dotfiles
 - **Ghostty**: ターミナルエミュレータ
 - **Neovim**: エディタ
 - **Starship**: プロンプト
-- **Claude Code / Gemini CLI / Codex**: AIコーディングアシスタント
+- **Claude Code**: AIコーディングアシスタント（native installerでインストール）
 
 ## 手動セットアップ
 

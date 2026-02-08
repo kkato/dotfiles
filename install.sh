@@ -143,29 +143,15 @@ install_packages() {
     fi
 }
 
-# npm パッケージのインストール
-install_npm_packages() {
-    info "Checking npm packages..."
-
-    if ! command -v npm &> /dev/null; then
-        warn "npm is not installed. Skipping npm packages."
+# Claude Code のインストール (native installer)
+install_claude_code() {
+    if command -v claude &> /dev/null; then
+        info "Claude Code is already installed"
         return
     fi
 
-    local npm_packages=(
-        "@anthropic-ai/claude-code"
-        "@google/gemini-cli"
-        "@openai/codex"
-    )
-
-    for package in "${npm_packages[@]}"; do
-        if npm list -g "$package" &> /dev/null; then
-            info "$package is already installed"
-        else
-            info "Installing $package..."
-            npm install -g "$package"
-        fi
-    done
+    info "Installing Claude Code..."
+    curl -fsSL https://claude.ai/install.sh | sh
 }
 
 # メイン処理
@@ -180,7 +166,7 @@ main() {
     read -r response
     if [[ "$response" =~ ^([yY][eE][sS]|[yY])$ ]]; then
         install_packages
-        install_npm_packages
+        install_claude_code
     fi
 
     # シンボリックリンクの作成
