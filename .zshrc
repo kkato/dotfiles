@@ -27,7 +27,7 @@ alias history='history 0 | fzf'
 # Development Tools
 # ----------------------------------------------------------------------------
 # ghq + fzf
-alias ghqcd='cd "$(ghq list --full-path | fzf)"'
+alias ghqcd='cd "$(ghq list --full-path | fzf --layout=reverse)"'
 
 # kubectl
 alias k='kubectl'
