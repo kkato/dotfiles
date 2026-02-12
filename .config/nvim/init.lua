@@ -133,4 +133,44 @@ require("lazy").setup({
       require("nvim-autopairs").setup()
     end,
   },
+
+  -- ---------------------------------------------------------------------------
+  -- nvim-tree: ファイルツリー
+  -- ---------------------------------------------------------------------------
+  -- サイドバーにディレクトリ構造を表示
+  -- <leader>e でツリーの表示/非表示を切り替え
+  {
+    "nvim-tree/nvim-tree.lua",
+    dependencies = { "nvim-tree/nvim-web-devicons" }, -- ファイルアイコン表示用
+    keys = {
+      { "<leader>e", "<cmd>NvimTreeToggle<cr>", desc = "Toggle file tree" },
+    },
+    config = function()
+      -- netrwを無効化（nvim-treeと競合するため）
+      vim.g.loaded_netrw = 1
+      vim.g.loaded_netrwPlugin = 1
+      require("nvim-tree").setup({
+        view = {
+          width = 30,
+        },
+      })
+    end,
+  },
+
+  -- ---------------------------------------------------------------------------
+  -- lualine.nvim: ステータスライン
+  -- ---------------------------------------------------------------------------
+  -- 画面下部にモード、ブランチ名、ファイル名などを表示
+  -- tokyonightテーマに自動で合わせる
+  {
+    "nvim-lualine/lualine.nvim",
+    dependencies = { "nvim-tree/nvim-web-devicons" },
+    config = function()
+      require("lualine").setup({
+        options = {
+          theme = "tokyonight",
+        },
+      })
+    end,
+  },
 })
