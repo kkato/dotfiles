@@ -1,13 +1,44 @@
 {
   "permissions": {
     "allow": [
-      "Bash:^git (?!commit|push)",
-      "Bash:^(ls|cat|head|tail|grep|find|pwd|echo|which|whoami|date|file|wc|sort|uniq|diff)",
-      "Bash:^gh (api -X GET|issue list|pr diff|pr list|pr view)"
+      "Read",
+      "WebFetch",
+      "Bash(git *)",
+      "Bash(ls *)",
+      "Bash(cat *)",
+      "Bash(grep *)",
+      "Bash(find *)",
+      "Bash(gh *)",
+      "Bash(kube prod get *)",
+      "Bash(kube prod describe *)",
+      "Bash(kube prod logs *)",
+      "Bash(kube qa *)",
+      "Bash(kube sandbox *)",
+      "mcp__datadog-mcp__analyze_datadog_logs",
+      "mcp__datadog-mcp__get_datadog_incident",
+      "mcp__datadog-mcp__get_datadog_metric",
+      "mcp__datadog-mcp__get_datadog_metric_context",
+      "mcp__datadog-mcp__get_datadog_notebook",
+      "mcp__datadog-mcp__get_datadog_trace",
+      "mcp__datadog-mcp__search_datadog_dashboards",
+      "mcp__datadog-mcp__search_datadog_events",
+      "mcp__datadog-mcp__search_datadog_hosts",
+      "mcp__datadog-mcp__search_datadog_incidents",
+      "mcp__datadog-mcp__search_datadog_logs",
+      "mcp__datadog-mcp__search_datadog_metrics",
+      "mcp__datadog-mcp__search_datadog_monitors",
+      "mcp__datadog-mcp__search_datadog_notebooks",
+      "mcp__datadog-mcp__search_datadog_rum_events",
+      "mcp__datadog-mcp__search_datadog_service_dependencies",
+      "mcp__datadog-mcp__search_datadog_services",
+      "mcp__datadog-mcp__search_datadog_spans"
     ],
-    "deny": []
+    "deny": [
+      "Bash(git push --force *)",
+      "Bash(git push -f *)",
+      "Bash(rm -rf *)"
+    ]
   },
-  "model": "opus",
   "enabledPlugins": {
     "context7@claude-plugins-official": true,
     "code-review@claude-plugins-official": true,
