@@ -33,6 +33,7 @@ cd ~/dotfiles
 ## 主な機能
 
 - **Ghostty**: ターミナルエミュレータ
+- **VSCode + Neovim拡張**: エディタ
 - **Starship**: プロンプト
 - **Claude Code**: AIコーディングアシスタント（native installerでインストール）
 
