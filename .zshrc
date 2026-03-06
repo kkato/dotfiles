@@ -118,3 +118,5 @@ setopt HIST_REDUCE_BLANKS    # Remove extra whitespace
 if [ -f "$HOME/.zshrc.local" ]; then
     source "$HOME/.zshrc.local"
 fi
+
+[ -f "$HOME/.ghcup/env" ] && source "$HOME/.ghcup/env"
