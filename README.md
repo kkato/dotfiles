@@ -34,8 +34,7 @@ cd ~/dotfiles
 
 - **Ghostty**: ターミナルエミュレータ
 - **VSCode + VSCode Neovim**: エディタ
-- **Starship**: プロンプト
-- **Claude Code**: AIコーディングアシスタント（native installerでインストール）
+- **Claude Code**: AIエージェント
 
 ## 手動セットアップ
 
