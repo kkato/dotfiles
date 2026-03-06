@@ -9,8 +9,7 @@ macOS向けの個人的なdotfiles設定です。
 ├── .zshrc              # Zsh設定
 ├── .gitconfig          # Git設定
 ├── .config/
-│   ├── starship.toml   # Starshipプロンプト設定
-│   └── nvim/           # Neovim設定
+│   └── starship.toml   # Starshipプロンプト設定
 └── install.sh          # セットアップスクリプト
 ```
 
@@ -19,7 +18,6 @@ macOS向けの個人的なdotfiles設定です。
 - macOS
 - [Homebrew](https://brew.sh/ja/)
 - Zsh
-- curl (Claude Codeのインストール用)
 
 ## セットアップ
 
@@ -35,7 +33,6 @@ cd ~/dotfiles
 ## 主な機能
 
 - **Ghostty**: ターミナルエミュレータ
-- **Neovim**: エディタ
 - **Starship**: プロンプト
 - **Claude Code**: AIコーディングアシスタント（native installerでインストール）
 
