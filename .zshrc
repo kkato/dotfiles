@@ -71,6 +71,21 @@ if [ -f "$HOME/google-cloud-sdk/completion.zsh.inc" ]; then
 fi
 
 # ----------------------------------------------------------------------------
+# HashiCorp Vault
+# ----------------------------------------------------------------------------
+if command -v vault &>/dev/null; then
+    # vault.kkato.app は Cloudflare Access で保護。CLI からは cloudflared で
+    # ローカルにトンネルを張り、その先(127.0.0.1:8200)に対して vault を叩く。
+    export VAULT_ADDR='http://127.0.0.1:8200'
+
+    # 別ターミナルで起動しておくトンネル（初回はブラウザで Access 認証、以降 Service Token で自動認証）
+    alias vault-tunnel='cloudflared access tcp --hostname vault.kkato.app --url 127.0.0.1:8200'
+
+    # completion
+    complete -o nospace -C "$(command -v vault)" vault
+fi
+
+# ----------------------------------------------------------------------------
 # Language Specific
 # ----------------------------------------------------------------------------
 # Ruby (rbenv)

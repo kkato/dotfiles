@@ -101,6 +101,8 @@ install_packages() {
         "go"
         "fnm"
         "rbenv"
+        "cloudflared"
+        "vault"
     )
 
     local casks=(
