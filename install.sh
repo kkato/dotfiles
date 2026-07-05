@@ -180,6 +180,7 @@ main() {
     create_symlink "$DOTFILES_DIR/.claude/CLAUDE.md" "$HOME/.claude/CLAUDE.md"
     create_symlink "$DOTFILES_DIR/.claude/settings.json" "$HOME/.claude/settings.json"
     create_symlink "$DOTFILES_DIR/.claude/statusline.sh" "$HOME/.claude/statusline.sh"
+    create_symlink "$DOTFILES_DIR/.claude/hooks" "$HOME/.claude/hooks"
 
     info "Installation completed!"
 

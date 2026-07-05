@@ -13,7 +13,8 @@ macOS向けの個人的なdotfiles設定です。
 ├── .claude/
 │   ├── CLAUDE.md       # Claudeグローバル指示
 │   ├── settings.json   # Claude Code設定
-│   └── statusline.sh   # Claude Codeステータスライン
+│   ├── statusline.sh   # Claude Codeステータスライン
+│   └── hooks/          # Claude Codeフック
 └── install.sh          # セットアップスクリプト
 ```
 
@@ -54,6 +55,7 @@ mkdir -p ~/.claude
 ln -sf ~/dotfiles/.claude/CLAUDE.md ~/.claude/CLAUDE.md
 ln -sf ~/dotfiles/.claude/settings.json ~/.claude/settings.json
 ln -sf ~/dotfiles/.claude/statusline.sh ~/.claude/statusline.sh
+ln -sf ~/dotfiles/.claude/hooks ~/.claude/hooks
 
 # 設定を反映
 source ~/.zshrc
