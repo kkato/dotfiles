@@ -1,5 +1,5 @@
 #!/bin/bash
-# git switch -c / checkout -b した際、デフォルトブランチ(main/master)から切っていなければ警告する
+# git switch -c / checkout -b した際、デフォルトブランチ(main/master)から切っていなければブロックする
 set -euo pipefail
 
 input=$(cat)
@@ -14,6 +14,6 @@ base=$(default_branch)
 current=$(git rev-parse --abbrev-ref HEAD)
 
 if [[ "$current" != "$base" ]]; then
-  jq -n --arg msg "警告: 現在のブランチ \"$current\" はデフォルトブランチ \"$base\" ではありません。$base から切り出すことを推奨します。" \
-    '{systemMessage: $msg}'
+  jq -n --arg msg "ブランチ \"$current\" はデフォルトブランチ \"$base\" ではありません。$base に切り替えてから新しいブランチを切ってください。" \
+    '{continue: false, stopReason: $msg}'
 fi
