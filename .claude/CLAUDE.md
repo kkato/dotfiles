@@ -30,9 +30,11 @@
 
 ## Git
 
-- 新しいブランチは必ず master から切る
-  - PR を作る前に現在のブランチが master ベースかどうか確認すること
-  - 既存の作業ブランチで作業している場合でも、別の目的の変更は必ず master から新しいブランチを切って行う
+- 作業を始める前に `git fetch` / `git pull` でリポジトリを最新化する
+  - デフォルトブランチが古いままだと、そこから切ったブランチが最新に追従できていないことに気づけない
+- 新しいブランチは必ずデフォルトブランチ（`master` または `main`。リポジトリごとに異なるので `git symbolic-ref refs/remotes/origin/HEAD` 等で確認する）から切る
+  - PR を作る前に現在のブランチがデフォルトブランチベースかどうか確認すること
+  - 既存の作業ブランチで作業している場合でも、別の目的の変更は必ずデフォルトブランチから新しいブランチを切って行う
 - ブランチ名は `kkato/<branch-name>` の形式にする
 - `git add -A` や `git add .` は使わない。ファイルを明示的に指定して add する
   - 例: `git add kubernetes/sandbox/serviceaccount.yaml kube-generate.yaml`
