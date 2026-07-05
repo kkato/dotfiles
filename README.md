@@ -43,6 +43,7 @@ cd ~/dotfiles
 - **Ghostty**: ターミナルエミュレータ
 - **VSCode + VSCode Neovim**: エディタ
 - **Claude Code**: AIエージェント
+- **Codex CLI**: AIエージェント ([https://developers.openai.com/codex/cli](https://developers.openai.com/codex/cli))
 
 ## カスタマイズ
 

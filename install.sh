@@ -156,6 +156,18 @@ install_claude_code() {
     curl -fsSL https://claude.ai/install.sh | sh
 }
 
+# Codex CLI のインストール (native installer)
+# https://developers.openai.com/codex/cli
+install_codex() {
+    if command -v codex &> /dev/null; then
+        info "Codex CLI is already installed"
+        return
+    fi
+
+    info "Installing Codex CLI..."
+    curl -fsSL https://chatgpt.com/codex/install.sh | sh
+}
+
 # メイン処理
 main() {
     info "Starting dotfiles installation..."
@@ -169,6 +181,7 @@ main() {
     if [[ "$response" =~ ^([yY][eE][sS]|[yY])$ ]]; then
         install_packages
         install_claude_code
+        install_codex
     fi
 
     # シンボリックリンクの作成
