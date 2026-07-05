@@ -57,6 +57,14 @@
 - 使い方: `kube sandbox(sb) | qa | production(prod) <kubectlサブコマンド>`
   - 例: `kube sandbox get pods`, `kube sb -n argo-cd get configmap`, `kube prod get nodes`
 
+## Claude Code / Codex の設定管理
+
+- CLAUDE.md・settings.json・hooks・skills・codex の config.toml は `~/ghq/github.com/kkato/dotfiles` でバージョン管理されている
+- 新しい plugin/skill を使いたい場合、その場で `claude plugin install` 等を実行して終わりにしない
+  - dotfiles 側の `settings.json`（`enabledPlugins`/`extraKnownMarketplaces`）や `.claude/skills/` を先に編集して commit・push する
+  - 他のマシンでは `git pull` して反映する
+  - こうすることでマシン間の環境差異（片方にだけ入っている plugin/skill）を防ぐ
+
 ## Plan mode
 
 - プランは簡潔に書く。調査の経緯や複数選択肢の比較は書かず、結論と変更内容だけを書く
