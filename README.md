@@ -14,7 +14,8 @@ macOS向けの個人的なdotfiles設定です。
 │   ├── CLAUDE.md       # Claudeグローバル指示
 │   ├── settings.json   # Claude Code設定
 │   ├── statusline.sh   # Claude Codeステータスライン
-│   └── hooks/          # Claude Codeフック
+│   ├── hooks/          # Claude Codeフック
+│   └── skills/         # Claude Codeカスタムスキル
 └── install.sh          # セットアップスクリプト
 ```
 
@@ -40,26 +41,6 @@ cd ~/dotfiles
 - **Ghostty**: ターミナルエミュレータ
 - **VSCode + VSCode Neovim**: エディタ
 - **Claude Code**: AIエージェント
-
-## 手動セットアップ
-
-セットアップスクリプトを使わない場合:
-
-```bash
-# シンボリックリンクを作成
-ln -sf ~/dotfiles/.zshrc ~/.zshrc
-ln -sf ~/dotfiles/.gitconfig ~/.gitconfig
-mkdir -p ~/.config
-ln -sf ~/dotfiles/.config/starship.toml ~/.config/starship.toml
-mkdir -p ~/.claude
-ln -sf ~/dotfiles/.claude/CLAUDE.md ~/.claude/CLAUDE.md
-ln -sf ~/dotfiles/.claude/settings.json ~/.claude/settings.json
-ln -sf ~/dotfiles/.claude/statusline.sh ~/.claude/statusline.sh
-ln -sf ~/dotfiles/.claude/hooks ~/.claude/hooks
-
-# 設定を反映
-source ~/.zshrc
-```
 
 ## カスタマイズ
 

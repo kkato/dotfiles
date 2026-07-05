@@ -7,20 +7,8 @@ cmd=$(jq -r '.tool_input.command // empty' <<<"$input")
 
 [[ "$cmd" =~ git[[:space:]]+(switch[[:space:]]+-c|checkout[[:space:]]+-b) ]] || exit 0
 
-default_branch() {
-  local ref
-  if ref=$(git symbolic-ref refs/remotes/origin/HEAD 2>/dev/null); then
-    echo "${ref##*/}"
-    return
-  fi
-  for b in main master; do
-    if git rev-parse --verify "$b" >/dev/null 2>&1; then
-      echo "$b"
-      return
-    fi
-  done
-  echo master
-}
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+source "$SCRIPT_DIR/lib/default-branch.sh"
 
 base=$(default_branch)
 current=$(git rev-parse --abbrev-ref HEAD)
