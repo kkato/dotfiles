@@ -11,7 +11,9 @@ macOS向けの個人的なdotfiles設定です。
 ├── .config/
 │   └── starship.toml   # Starshipプロンプト設定
 ├── .claude/
-│   └── CLAUDE.md       # Claudeグローバル指示
+│   ├── CLAUDE.md       # Claudeグローバル指示
+│   ├── settings.json   # Claude Code設定
+│   └── statusline.sh   # Claude Codeステータスライン
 └── install.sh          # セットアップスクリプト
 ```
 
@@ -50,6 +52,8 @@ mkdir -p ~/.config
 ln -sf ~/dotfiles/.config/starship.toml ~/.config/starship.toml
 mkdir -p ~/.claude
 ln -sf ~/dotfiles/.claude/CLAUDE.md ~/.claude/CLAUDE.md
+ln -sf ~/dotfiles/.claude/settings.json ~/.claude/settings.json
+ln -sf ~/dotfiles/.claude/statusline.sh ~/.claude/statusline.sh
 
 # 設定を反映
 source ~/.zshrc

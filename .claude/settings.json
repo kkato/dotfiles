@@ -1,4 +1,8 @@
 {
+  "awsAuthRefresh": "aws sso login --profile local-bedrock",
+  "env": {
+    "CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS": "1"
+  },
   "permissions": {
     "allow": [
       "Read",
@@ -154,13 +158,60 @@
       "Read(~/.config/gh/hosts.yml)",
       "Edit(~/.ssh/**)",
       "Edit(~/.gnupg/**)"
+    ],
+    "defaultMode": "plan"
+  },
+  "model": "opusplan",
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "Bash",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python3 -c \"\nimport sys, json, re, subprocess\ndata = json.load(sys.stdin)\ncmd = data.get('tool_input', {}).get('command', '')\nif not re.search(r'git (switch -c|checkout -b)\\\\b', cmd):\n    sys.exit(0)\nresult = subprocess.run(['git', 'rev-parse', '--abbrev-ref', 'HEAD'], capture_output=True, text=True)\ncurrent = result.stdout.strip()\nif current != 'master':\n    print(json.dumps({'systemMessage': f'警告: 現在のブランチ \\\"{current}\\\" は master ではありません。master から切り出すことを推奨します。'}))\n\"",
+            "statusMessage": "ブランチのベースを確認中..."
+          }
+        ]
+      },
+      {
+        "matcher": "Bash",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python3 -c \"\nimport sys, json, subprocess\ndata = json.load(sys.stdin)\ncmd = data.get('tool_input', {}).get('command', '')\nif 'gh pr create' not in cmd:\n    sys.exit(0)\nanc = subprocess.run(['git', 'merge-base', 'master', 'HEAD'], capture_output=True, text=True)\nmas = subprocess.run(['git', 'rev-parse', 'master'], capture_output=True, text=True)\ncur = subprocess.run(['git', 'rev-parse', '--abbrev-ref', 'HEAD'], capture_output=True, text=True)\ncurrent = cur.stdout.strip()\nif anc.stdout.strip() != mas.stdout.strip():\n    print(json.dumps({'continue': False, 'stopReason': f'ブランチ \\\"{current}\\\" は master から直接切られていません。master から新しいブランチを切り直してください。'}))\n\"",
+            "statusMessage": "PR作成前にブランチのベースを確認中..."
+          }
+        ]
+      }
     ]
+  },
+  "statusLine": {
+    "type": "command",
+    "command": "~/.claude/statusline.sh",
+    "padding": 0
   },
   "enabledPlugins": {
     "context7@claude-plugins-official": true,
     "code-review@claude-plugins-official": true,
     "claude-code-setup@claude-plugins-official": true,
-    "example-skills@anthropic-agent-skills": true
+    "example-skills@anthropic-agent-skills": true,
+    "devin-mcp@wantedly-cc-plugins": true,
+    "marp-wantedly@wantedly-cc-plugins": true,
+    "ruby-lsp@claude-plugins-official": true,
+    "slack@claude-plugins-official": true,
+    "infra-squad@wantedly-cc-plugins": true
   },
-  "language": "Japanese"
+  "extraKnownMarketplaces": {
+    "wantedly-cc-plugins": {
+      "source": {
+        "source": "git",
+        "url": "https://github.com/wantedly/claude-code-plugins.git"
+      },
+      "autoUpdate": true
+    }
+  },
+  "language": "Japanese",
+  "effortLevel": "high",
+  "promptSuggestionEnabled": false
 }
