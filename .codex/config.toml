@@ -1,25 +1,6 @@
-model = "gpt-5.4"
+model = "gpt-5.5"
 model_reasoning_effort = "medium"
 personality = "pragmatic"
-
-[projects."/Users/kenkato/ghq/github.com/wantedly/private-nginx-image-server"]
-trust_level = "untrusted"
-
-[projects."/Users/kenkato/ghq/github.com/wantedly/wantedly-terraform"]
-trust_level = "untrusted"
-
-[projects."/Users/kenkato/ghq/github.com/wantedly/visit-api-node"]
-trust_level = "trusted"
-
-[projects."/Users/kenkato/ghq/github.com/wantedly/finder-go"]
-trust_level = "trusted"
-
-[projects."/Users/kenkato"]
-trust_level = "untrusted"
-
-[notice.model_migrations]
-"gpt-5.1-codex-max" = "gpt-5.2-codex"
-"gpt-5.2-codex" = "gpt-5.4"
 
 [plugins."github@openai-curated"]
 enabled = true
