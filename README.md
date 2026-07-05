@@ -10,6 +10,8 @@ macOS向けの個人的なdotfiles設定です。
 ├── .gitconfig          # Git設定
 ├── .config/
 │   └── starship.toml   # Starshipプロンプト設定
+├── .claude/
+│   └── CLAUDE.md       # Claudeグローバル指示
 └── install.sh          # セットアップスクリプト
 ```
 
@@ -46,6 +48,8 @@ ln -sf ~/dotfiles/.zshrc ~/.zshrc
 ln -sf ~/dotfiles/.gitconfig ~/.gitconfig
 mkdir -p ~/.config
 ln -sf ~/dotfiles/.config/starship.toml ~/.config/starship.toml
+mkdir -p ~/.claude
+ln -sf ~/dotfiles/.claude/CLAUDE.md ~/.claude/CLAUDE.md
 
 # 設定を反映
 source ~/.zshrc

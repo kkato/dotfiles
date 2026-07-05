@@ -177,6 +177,7 @@ main() {
     create_symlink "$DOTFILES_DIR/.zshrc" "$HOME/.zshrc"
     create_symlink "$DOTFILES_DIR/.gitconfig" "$HOME/.gitconfig"
     create_symlink "$DOTFILES_DIR/.config/starship.toml" "$HOME/.config/starship.toml"
+    create_symlink "$DOTFILES_DIR/.claude/CLAUDE.md" "$HOME/.claude/CLAUDE.md"
 
     info "Installation completed!"
 
