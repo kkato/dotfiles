@@ -16,6 +16,8 @@ macOS向けの個人的なdotfiles設定です。
 │   ├── statusline.sh   # Claude Codeステータスライン
 │   ├── hooks/          # Claude Codeフック
 │   └── skills/         # Claude Codeカスタムスキル
+├── .codex/
+│   └── config.toml     # Codex CLI設定
 └── install.sh          # セットアップスクリプト
 ```
 

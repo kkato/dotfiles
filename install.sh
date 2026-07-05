@@ -182,6 +182,7 @@ main() {
     create_symlink "$DOTFILES_DIR/.claude/statusline.sh" "$HOME/.claude/statusline.sh"
     create_symlink "$DOTFILES_DIR/.claude/hooks" "$HOME/.claude/hooks"
     create_symlink "$DOTFILES_DIR/.claude/skills" "$HOME/.claude/skills"
+    create_symlink "$DOTFILES_DIR/.codex/config.toml" "$HOME/.codex/config.toml"
 
     info "Installation completed!"
 
