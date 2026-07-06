@@ -161,7 +161,6 @@
     ],
     "defaultMode": "plan"
   },
-  "model": "default",
   "hooks": {
     "PreToolUse": [
       {
