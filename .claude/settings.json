@@ -202,6 +202,5 @@
   },
   "language": "Japanese",
   "effortLevel": "high",
-  "promptSuggestionEnabled": false,
-  "model": "opusplan"
+  "promptSuggestionEnabled": false
 }
