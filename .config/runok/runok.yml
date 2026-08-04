@@ -1,0 +1,250 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/fohte/runok/main/schema/runok.schema.json
+#
+# runok: AI エージェント向けのコマンド許可制御
+# https://runok.fohte.net/
+#
+# 読み取り専用コマンド (unix / git / gh) と `* --help` / `* --version` は公式
+# プリセットに任せ、ここには自分の環境固有のルールだけを書く。
+# ルールの優先度は deny > ask > allow > defaults で、記述順は影響しない。
+#
+# 検証: runok test -c ~/.config/runok/runok.yml
+#       runok check -- <command>
+
+extends:
+  - 'github:fohte/runok-presets/base@v1'
+
+# どのルールにもマッチしなかったコマンドはユーザーに確認する
+defaults:
+  action: ask
+
+rules:
+  # ─── 秘密情報の読み出し ─────────────────────────────────────
+  # プリセットが `cat *` 等を allow しているので deny で上書きする。
+  # hook にはシェル展開前の文字列が渡るので `~/...` と絶対パスの両方を書く。
+  - deny: 'cat|head|tail|less|more|bat|xxd|od|strings|grep|rg .env|.env.*|*/.env|*/.env.*|.envrc|*/.envrc'
+    message: '秘密情報を含むファイルの読み出しはブロックされています'
+    fix_suggestion: '値が必要な場合はユーザーに確認してください'
+    tests:
+      - deny: 'cat .env'
+      - deny: 'head .env.local'
+      - deny: 'tail ./.env'
+      - deny: 'cat .envrc'
+      - allow: 'cat README.md'
+  - deny: 'cat|head|tail|less|more|bat|xxd|od|strings|grep|rg ~/.ssh/*|~/.gnupg/*|~/.aws/credentials|~/.config/gh/hosts.yml|*/.ssh/*|*/.gnupg/*'
+    message: '秘密情報を含むファイルの読み出しはブロックされています'
+    fix_suggestion: '値が必要な場合はユーザーに確認してください'
+    tests:
+      - deny: 'cat ~/.ssh/id_ed25519'
+      - deny: 'less /Users/kenkato/.ssh/config'
+      - deny: 'cat ~/.aws/credentials'
+
+  # ─── Git ────────────────────────────────────────────────────
+  # 読み取り系はプリセット (readonly-git) がカバーする。ここでは書き込み系を
+  # 明示的に allow し、履歴を壊す操作を deny する。
+  - deny: 'git [-C *] push --force|-f *'
+    message: 'force push は remote の履歴を壊すためブロックされています'
+    fix_suggestion: 'git push (どうしても必要ならユーザーに確認してください)'
+    tests:
+      - deny: 'git push --force origin main'
+      - deny: 'git push -f'
+      - deny: 'git push origin main --force'
+      - deny: 'git -C /tmp/repo push --force'
+  - deny: 'git [-C *] push --mirror *'
+    message: '--mirror は remote の全 ref を強制更新します'
+    tests:
+      - deny: 'git push --mirror origin'
+  - deny: 'git [-C *] commit --amend *'
+    message: 'commit の書き換えは既存の作業を失う可能性があるためブロックされています'
+    fix_suggestion: '新しい commit を積んでください'
+    tests:
+      - deny: 'git commit --amend'
+      - deny: 'git commit --amend --no-edit'
+  - deny: 'git [-C *] commit -n|--no-verify *'
+    message: 'pre-commit hook のスキップはブロックされています'
+    fix_suggestion: 'git commit -m "..."'
+    tests:
+      - deny: 'git commit -n -m "fix"'
+      - deny: 'git commit --no-verify -m "fix"'
+  - deny: 'git [-C *] rebase -i|--interactive *'
+    message: 'interactive rebase は非対話環境では実行できません'
+    tests:
+      - deny: 'git rebase -i HEAD~3'
+      - allow: 'git rebase --continue'
+  - deny: 'git [-C *] reset --hard *'
+    message: '`git reset --hard` は未コミットの変更を破棄します'
+    fix_suggestion: 'git reset --soft / git stash を検討してください'
+    tests:
+      - deny: 'git reset --hard HEAD~1'
+      - allow: 'git reset --soft HEAD~1'
+  # `-*f*` はまとめ書きされた短縮フラグ (`-fd`, `-xdf`) と `--force` の両方を拾う
+  - deny: 'git [-C *] clean -*f*|--force *'
+    message: '`git clean -f` は untracked ファイルを削除します'
+    fix_suggestion: 'git clean -n で対象を確認してからユーザーに相談してください'
+    tests:
+      - deny: 'git clean -fd'
+      - deny: 'git clean -xdf'
+      - deny: 'git clean --force'
+      - allow: 'git clean -n'
+  - deny: 'git [-C *] branch -D *'
+    message: 'マージされていないブランチの強制削除はブロックされています'
+    fix_suggestion: 'git branch -d <branch>'
+    tests:
+      - deny: 'git branch -D feature/foo'
+      - allow: 'git branch -d feature/foo'
+  - deny: 'git [-C *] branch --delete --force *'
+    message: 'マージされていないブランチの強制削除はブロックされています'
+    fix_suggestion: 'git branch -d <branch>'
+    tests:
+      - deny: 'git branch --delete --force feature/foo'
+  # 書き込み系のサブコマンドを列挙して allow する。`git *` を丸ごと allow すると
+  # `git log --output=<path>` のような任意ファイル書き込みまで通ってしまうため。
+  # ここに無いサブコマンドは defaults の ask に落ちる。
+  - allow: 'git [-C *] add|am|apply|bisect|branch|checkout|cherry-pick|clean|clone|commit|config|fetch|gc|init|merge|mv|notes|prune|pull|push|rebase|remote|reset|restore|revert|rm|sparse-checkout|stash|submodule|switch|tag|worktree *'
+    tests:
+      - allow: 'git add foo.txt'
+      - allow: 'git commit -m "message"'
+      - allow: 'git switch -c kkato/foo'
+      - allow: 'git push origin main'
+      - allow: 'git fetch --prune'
+      - allow: 'git worktree list'
+
+  # ─── GitHub CLI ─────────────────────────────────────────────
+  # 読み取り系はプリセット (readonly-gh) がカバーする
+  - deny: 'gh repo delete *'
+    message: 'リポジトリの削除は取り消せません'
+    tests:
+      - deny: 'gh repo delete kkato/foo'
+  - ask: 'gh pr create|merge|close|edit|comment|ready|review *'
+    tests:
+      - ask: 'gh pr create --title foo --body bar'
+      - ask: 'gh pr merge 123'
+  - ask: 'gh issue create|close|edit|comment|reopen *'
+    tests:
+      - ask: 'gh issue comment 123 --body foo'
+  - ask: 'gh run rerun|cancel *'
+    tests:
+      - ask: 'gh run rerun 123'
+  - ask: 'gh workflow run|enable|disable *'
+    tests:
+      - ask: 'gh workflow run deploy.yml'
+
+  # ─── Kubernetes (`kube <env> <kubectl args>` ラッパー経由で使う) ───
+  - deny: 'kube|kubectl * apply|delete|patch|edit|replace|scale|drain|cordon|uncordon|taint *'
+    message: 'クラスタの状態を変更する操作はブロックされています'
+    fix_suggestion: 'マニフェストを PR にして Argo CD 経由で反映してください'
+    tests:
+      - deny: 'kube prod delete pod foo'
+      - deny: 'kube sb apply -f manifest.yaml'
+      - deny: 'kubectl delete deployment foo'
+      - deny: 'kube sb -n argo-cd patch configmap foo'
+  - deny: 'kube|kubectl * rollout restart *'
+    message: 'ローリングリスタートは本番影響があります'
+    tests:
+      - deny: 'kube prod rollout restart deployment/foo'
+  - ask: 'kube|kubectl * exec *'
+    message: 'Pod 内でのコマンド実行です。対象と内容を確認してください'
+    tests:
+      - ask: 'kube sb exec -it foo -- bash'
+  - ask: 'kube|kubectl * port-forward *'
+    tests:
+      - ask: 'kube sb port-forward svc/foo 8080:80'
+  - allow: 'kube|kubectl * get|describe|logs|top|explain|version|api-resources|api-versions|cluster-info|config|rollout *'
+    tests:
+      - allow: 'kube sb get pods'
+      - allow: 'kube prod -n argo-cd get configmap'
+      - allow: 'kubectl describe pod foo'
+      - allow: 'kube sb logs foo -f'
+      - allow: 'kube prod rollout status deployment/foo'
+
+  # ─── AWS CLI ────────────────────────────────────────────────
+  - deny: 'aws * get-*|describe-* --with-decryption *'
+    message: '秘密情報の復号取得はブロックされています'
+    fix_suggestion: 'aws ssm get-parameter --name <name> (復号なし)'
+    tests:
+      - deny: 'aws ssm get-parameter --with-decryption --name foo'
+  - allow: 'aws * get-*|list-*|describe-*|lookup-events|filter-log-events *'
+    tests:
+      - allow: 'aws s3api list-buckets'
+      - allow: 'aws ec2 describe-instances'
+      - allow: 'aws cloudtrail lookup-events --max-items 10'
+      - allow: 'aws logs filter-log-events --log-group-name foo'
+  - allow: 'aws sso login *'
+    tests:
+      - allow: 'aws sso login --profile local-bedrock'
+
+  # ─── HTTP リクエスト ────────────────────────────────────────
+  # 読み取り系の curl はプリセットがカバーする。フラグと値のペアは順不同で
+  # マッチするので `curl <url> -X DELETE` のような並びも拾える。
+  - deny: 'curl -X|--request DELETE *'
+    message: 'DELETE リクエストはブロックされています'
+    tests:
+      - deny: 'curl -X DELETE https://example.com/foo'
+      - deny: 'curl https://example.com/foo -X DELETE'
+  - ask: 'curl -X|--request POST|PUT|PATCH *'
+    message: '書き込み系の HTTP リクエストです。送信先と内容を確認してください'
+    tests:
+      - ask: 'curl -X POST https://example.com/foo'
+      - ask: 'curl --request PUT https://example.com/foo'
+
+  # ─── ファイル操作 ───────────────────────────────────────────
+  # `-*r*f*` 等のグロブでまとめ書きされた短縮フラグ (`-rf`, `-fr`, `-Rf`) を拾う
+  - deny: 'rm -*r*f*|-*f*r*|-*R*f*|-*f*R* *'
+    message: '再帰的な強制削除は取り消せないためブロックされています'
+    fix_suggestion: '生成物なら `git clean -fdX <path>`、それ以外は対象を明示して `rm -r` を使うかユーザーに確認してください'
+    tests:
+      - deny: 'rm -rf node_modules'
+      - deny: 'rm -fr /tmp/foo'
+      - deny: 'rm -Rf dist'
+  - deny: 'rm -r|-R|--recursive -f|--force *'
+    message: '再帰的な強制削除は取り消せないためブロックされています'
+    tests:
+      - deny: 'rm -r -f dist'
+      - deny: 'rm -f -r dist'
+      - deny: 'rm --recursive --force dist'
+  - ask: 'rm *'
+    message: 'ファイル削除です。対象を確認してください'
+    tests:
+      - ask: 'rm foo.txt'
+      - ask: 'rm -r dist'
+  - ask: 'mv|cp|chmod|chown|ln *'
+    tests:
+      - ask: 'mv foo bar'
+      - ask: 'cp foo bar'
+      - ask: 'chmod +x script.sh'
+  - allow: 'mkdir|touch|mktemp *'
+    tests:
+      - allow: 'mkdir -p /tmp/foo'
+      - allow: 'touch foo.txt'
+      - allow: 'mktemp -d'
+
+  # ─── パッケージ管理 ─────────────────────────────────────────
+  - allow: 'brew list|info|search|config|doctor|outdated|--prefix *'
+    tests:
+      - allow: 'brew list --versions runok'
+      - allow: 'brew info jq'
+  - ask: 'brew install|uninstall|upgrade|tap|untap *'
+    tests:
+      - ask: 'brew install jq'
+  - ask: 'npm|pnpm|yarn|bun install|add|remove|uninstall *'
+    tests:
+      - ask: 'npm install lodash'
+      - ask: 'yarn add lodash'
+      - ask: 'bun add lodash'
+
+  # ─── プロセス ───────────────────────────────────────────────
+  - allow: 'ps|pgrep|lsof *'
+    tests:
+      - allow: 'ps aux'
+      - allow: 'pgrep -fl node'
+  - ask: 'kill|pkill|killall *'
+    message: 'プロセスを終了します。PID と対象を確認してください'
+    tests:
+      - ask: 'kill 1234'
+
+  # ─── その他 ─────────────────────────────────────────────────
+  - allow: 'ghq list|root *'
+    tests:
+      - allow: 'ghq list --full-path'
+  - allow: 'runok check|test|audit *'
+    tests:
+      - allow: 'runok test'

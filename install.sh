@@ -103,6 +103,8 @@ install_packages() {
         "rbenv"
         "cloudflared"
         "vault"
+        # AI エージェントのコマンド実行を allowlist で制御する (~/.config/runok/runok.yml)
+        "fohte/tap/runok"
     )
 
     local casks=(
@@ -190,6 +192,7 @@ main() {
     create_symlink "$DOTFILES_DIR/.zshrc" "$HOME/.zshrc"
     create_symlink "$DOTFILES_DIR/.gitconfig" "$HOME/.gitconfig"
     create_symlink "$DOTFILES_DIR/.config/starship.toml" "$HOME/.config/starship.toml"
+    create_symlink "$DOTFILES_DIR/.config/runok" "$HOME/.config/runok"
     create_symlink "$DOTFILES_DIR/.claude/CLAUDE.md" "$HOME/.claude/CLAUDE.md"
     create_symlink "$DOTFILES_DIR/.claude/settings.json" "$HOME/.claude/settings.json"
     create_symlink "$DOTFILES_DIR/.claude/statusline.sh" "$HOME/.claude/statusline.sh"
