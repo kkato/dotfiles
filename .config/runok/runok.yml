@@ -248,19 +248,7 @@ rules:
   - allow: 'runok check|test|audit *'
     tests:
       - allow: 'runok test'
-  # crit: ローカルでレビュー画面を開いてコメントをやり取りするツール。
-  # 外部に出す push (GitHub PR へのコメント投稿) と share / unpublish
-  # (crit-web への公開) だけ ask にして、残りはローカル完結なので allow する。
-  - ask: 'crit push|share|unpublish *'
-    message: 'crit の内容を外部 (GitHub / crit-web) に出します。送信先と内容を確認してください'
+  # 調査結果の HTML をブラウザで開く。ローカル完結なので allow。
+  - allow: 'open ~/tmp/*'
     tests:
-      - ask: 'crit push 1272'
-      - ask: 'crit share ~/tmp/foo.html'
-  - allow: 'crit *'
-    tests:
-      - allow: 'crit'
-      - allow: 'crit --pr 1272'
-      - allow: 'crit --range origin/master..HEAD'
-      - allow: 'crit preview ~/tmp/foo.html'
-      - allow: 'crit comments --json'
-      - allow: 'crit comment --reply-to c_abc123 --author claude "ok"'
+      - allow: 'open ~/tmp/foo.html'

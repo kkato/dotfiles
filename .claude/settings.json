@@ -79,7 +79,8 @@
     "marp-wantedly@wantedly-cc-plugins": true,
     "ruby-lsp@claude-plugins-official": true,
     "slack@claude-plugins-official": true,
-    "infra-squad@wantedly-cc-plugins": true
+    "infra-squad@wantedly-cc-plugins": true,
+    "eli5@claude-community": true
   },
   "extraKnownMarketplaces": {
     "wantedly-cc-plugins": {
@@ -88,9 +89,16 @@
         "url": "https://github.com/wantedly/claude-code-plugins.git"
       },
       "autoUpdate": true
+    },
+    "claude-community": {
+      "source": {
+        "source": "github",
+        "repo": "anthropics/claude-plugins-community"
+      }
     }
   },
   "language": "Japanese",
   "effortLevel": "high",
-  "promptSuggestionEnabled": false
+  "promptSuggestionEnabled": false,
+  "tui": "fullscreen"
 }
