@@ -16,7 +16,7 @@
 
 禁止表現: 比喩（「幽霊ドキュメント」等）、曖昧な言い回し（「意図的な設計」等）、「仕様どおり」だけで済ませる結論。
 
-深掘りする前に結論を数行出して粒度を確認する。詳細が必要になったら本文を膨らませず HTML に出す（「詳細な調査結果は HTML に出す」参照）。
+深掘りする前に結論を数行出して粒度を確認する。詳細が必要になったら本文を膨らませず Artifact に出す（「詳細な調査結果は Artifact に出す」参照）。
 
 ## 調査メモ（Issue コメント）の型
 
@@ -63,15 +63,15 @@
 - 略称: wtd/wtd → wantedly/wantedly
 - CLAUDE.md・settings.json・hooks・skills・codex の config.toml は `~/ghq/github.com/kkato/dotfiles` で管理。plugin/skill を入れるときは dotfiles 側を編集して commit・push する（その場で `claude plugin install` して終わりにしない）
 
-## 詳細な調査結果は HTML に出す
+## 詳細な調査結果は Artifact に出す
 
-**Issue コメントは削ぎ落とした結論、HTML は根拠を含む詳細版**という使い分けにする。詳細な調査結果や比較検討が必要になったら、チャットや Issue コメントを膨らませるのではなく HTML ファイルを作る。
+**Issue コメントは削ぎ落とした結論、Artifact は根拠を含む詳細版**という使い分けにする。詳細な調査結果や比較検討が必要になったら、チャットや Issue コメントを膨らませるのではなく HTML を作って Claude Code の Artifact として publish する。
 
-- `~/tmp/<slug>.html` に出して `open` でブラウザで開く（対象リポジトリ内には置かない）。チャット側は結論 1-2 行 + ファイルパスだけ
-- **HTML も視覚的にわかりやすくする**: 処理の流れは mermaid、数字や選択肢の比較は表、構成の説明は図。地の文を長く続けない
+- Artifact に publish して URL を返す。チャット側は結論 1-2 行 + URL だけ
+- Artifact が使えない環境では `~/tmp/<slug>.html` に出して `open` でブラウザで開く（対象リポジトリ内には置かない）。この場合のみ mermaid を CDN から読み込む（`https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs`）。Artifact は `<pre class="mermaid">` をネイティブ描画するので CDN 読み込み不要
+- **視覚的にわかりやすくする**: 処理の流れは mermaid、数字や選択肢の比較は表、構成の説明は図。地の文を長く続けない
 - 構成は「結論（数行）→ 図で全体像 → 表で内訳 → 解釈」。節ごとに図か表を 1 つ持たせる
-- mermaid は CDN から読み込んでレンダリングする（`https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs`）
-- ユーザーは HTML を読んでチャットで質問してくる。指摘されたら該当箇所の差分だけ直して開き直す。全文の書き直しはしない
+- ユーザーは読んでチャットで質問してくる。指摘されたら該当箇所の差分だけ直して同じファイルを再 publish する（同じ URL が更新される）。全文の書き直しはしない
 
 ## Plan mode
 
