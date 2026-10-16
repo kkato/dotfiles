@@ -56,5 +56,6 @@
   "language": "Japanese",
   "effortLevel": "high",
   "promptSuggestionEnabled": false,
-  "tui": "fullscreen"
+  "tui": "fullscreen",
+  "switchModelsOnFlag": false
 }
