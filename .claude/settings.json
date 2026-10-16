@@ -25,19 +25,8 @@
         "hooks": [
           {
             "type": "command",
-            "command": "~/.claude/hooks/pre-tool-use.sh",
-            "statusMessage": "コマンドの実行可否を確認中..."
-          }
-        ]
-      }
-    ],
-    "PostToolUse": [
-      {
-        "matcher": "Bash",
-        "hooks": [
-          {
-            "type": "command",
-            "command": "runok check --input-format claude-code-hook"
+            "command": "~/.claude/hooks/check-branch-base.sh",
+            "statusMessage": "ブランチのベースを確認中..."
           }
         ]
       }
