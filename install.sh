@@ -100,7 +100,6 @@ install_packages() {
         "gh"
         "go"
         "fnm"
-        "rbenv"
         # AI エージェントのコマンド実行を allowlist で制御する (~/.config/runok/runok.yml)
         "fohte/tap/runok"
     )

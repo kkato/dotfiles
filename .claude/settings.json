@@ -1,7 +1,4 @@
 {
-  "env": {
-    "CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS": "1"
-  },
   "permissions": {
     "allow": [
       "Read",
@@ -56,7 +53,6 @@
     "code-review@claude-plugins-official": true,
     "claude-code-setup@claude-plugins-official": true,
     "example-skills@anthropic-agent-skills": true,
-    "ruby-lsp@claude-plugins-official": true,
     "slack@claude-plugins-official": true,
     "eli5@claude-community": true
   },

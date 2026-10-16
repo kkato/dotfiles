@@ -88,13 +88,6 @@ fi
 # ----------------------------------------------------------------------------
 # Language Specific
 # ----------------------------------------------------------------------------
-# Ruby (rbenv)
-if command -v rbenv &>/dev/null; then
-    export RBENV_ROOT="$HOME/.rbenv"
-    export PATH="$RBENV_ROOT/bin:$PATH"
-    eval "$(rbenv init -)"
-fi
-
 # Node.js (fnm)
 if command -v fnm &>/dev/null; then
     eval "$(fnm env --use-on-cd)"
