@@ -20,8 +20,6 @@
 
 ## 調査メモ（Issue コメント）の型
 
-手本: [wantedly/infrastructure#15966](https://github.com/wantedly/infrastructure/issues/15966#issuecomment-5393003865)
-
 1. 見出しは `## 📝 調査メモ`
 2. 冒頭に**リスクを箇条書き**で並べる。ネストで影響を展開する。「結論」の節は立てない
 3. 「そのため、〜を考える」の 1 文で目的を書く
@@ -52,8 +50,6 @@
 
 - リポジトリは ghq 管理（`~/ghq/github.com/<org>/<repo>`）。clone せずこのパスを使う
 - 一時ファイルは `/tmp` ではなく `~/tmp`
-- `kubectl` ではなく `kube <env> <サブコマンド>`（env は `sandbox`/`sb`, `qa`, `production`/`prod`）
-- 略称: wtd/wtd → wantedly/wantedly
 - CLAUDE.md・settings.json・hooks・skills・codex の config.toml は `~/ghq/github.com/kkato/dotfiles` で管理。plugin/skill を入れるときは dotfiles 側を編集して commit・push する（その場で `claude plugin install` して終わりにしない）
 
 ## Artifact は指示されたときだけ出す

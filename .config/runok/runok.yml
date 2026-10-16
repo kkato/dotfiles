@@ -128,33 +128,32 @@ rules:
     tests:
       - ask: 'gh workflow run deploy.yml'
 
-  # ─── Kubernetes (`kube <env> <kubectl args>` ラッパー経由で使う) ───
-  - deny: 'kube|kubectl * apply|delete|patch|edit|replace|scale|drain|cordon|uncordon|taint *'
+  # ─── Kubernetes ─────────────────────────────────────────────
+  - deny: 'kubectl * apply|delete|patch|edit|replace|scale|drain|cordon|uncordon|taint *'
     message: 'クラスタの状態を変更する操作はブロックされています'
     fix_suggestion: 'マニフェストを PR にして Argo CD 経由で反映してください'
     tests:
-      - deny: 'kube prod delete pod foo'
-      - deny: 'kube sb apply -f manifest.yaml'
+      - deny: 'kubectl apply -f manifest.yaml'
       - deny: 'kubectl delete deployment foo'
-      - deny: 'kube sb -n argo-cd patch configmap foo'
-  - deny: 'kube|kubectl * rollout restart *'
+      - deny: 'kubectl -n argo-cd patch configmap foo'
+  - deny: 'kubectl * rollout restart *'
     message: 'ローリングリスタートは本番影響があります'
     tests:
-      - deny: 'kube prod rollout restart deployment/foo'
-  - ask: 'kube|kubectl * exec *'
+      - deny: 'kubectl rollout restart deployment/foo'
+  - ask: 'kubectl * exec *'
     message: 'Pod 内でのコマンド実行です。対象と内容を確認してください'
     tests:
-      - ask: 'kube sb exec -it foo -- bash'
-  - ask: 'kube|kubectl * port-forward *'
+      - ask: 'kubectl exec -it foo -- bash'
+  - ask: 'kubectl * port-forward *'
     tests:
-      - ask: 'kube sb port-forward svc/foo 8080:80'
-  - allow: 'kube|kubectl * get|describe|logs|top|explain|version|api-resources|api-versions|cluster-info|config|rollout *'
+      - ask: 'kubectl port-forward svc/foo 8080:80'
+  - allow: 'kubectl * get|describe|logs|top|explain|version|api-resources|api-versions|cluster-info|config|rollout *'
     tests:
-      - allow: 'kube sb get pods'
-      - allow: 'kube prod -n argo-cd get configmap'
+      - allow: 'kubectl get pods'
+      - allow: 'kubectl -n argo-cd get configmap'
       - allow: 'kubectl describe pod foo'
-      - allow: 'kube sb logs foo -f'
-      - allow: 'kube prod rollout status deployment/foo'
+      - allow: 'kubectl logs foo -f'
+      - allow: 'kubectl rollout status deployment/foo'
 
   # ─── AWS CLI ────────────────────────────────────────────────
   - deny: 'aws * get-*|describe-* --with-decryption *'
@@ -170,7 +169,7 @@ rules:
       - allow: 'aws logs filter-log-events --log-group-name foo'
   - allow: 'aws sso login *'
     tests:
-      - allow: 'aws sso login --profile local-bedrock'
+      - allow: 'aws sso login --profile default'
 
   # ─── HTTP リクエスト ────────────────────────────────────────
   # 読み取り系の curl はプリセットがカバーする。フラグと値のペアは順不同で
